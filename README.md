@@ -25,6 +25,9 @@ BrunoMine, Bruno Borges <borgesdossantosbruno@gmail.com> (CC BY-SA 3.0)
 FreqMan - freesound.org (CC-BY)
 	armatesla_shock.ogg
 
+ERH - freesound.org (CC-BY)
+	armatesla_granada_antitesla.ogg
+
  
 
 
