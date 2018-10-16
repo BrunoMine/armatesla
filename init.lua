@@ -42,7 +42,7 @@ minetest.register_node("armatesla:tesla", {
 		
 		-- Verifica inibidores
 		do 
-			local all_objects = minetest.get_objects_inside_radius(pos, 1)
+			local all_objects = minetest.get_objects_inside_radius(pos, 2)
 			
 			for _,obj in ipairs(all_objects) do
 				local luaent = obj:get_luaentity() or {}
@@ -161,8 +161,6 @@ minetest.register_entity("armatesla:antitesla_entity", {
 						{x=2, y=-2, z=-2}, {x=2, y=-2, z=2},
 						0.1, 0.75, 1, 8, false, "armatesla_particula_antitesla.png"
 					)
-					meta:set_int("particle_id", id)
-					meta:set_int("init_time", os.time())
 				end
 				self.object:remove() -- Remove particula lançada
 				local new_obj = minetest.add_entity(pos, "armatesla:antitesla_entity_inibidora")
