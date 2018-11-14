@@ -1,0 +1,15 @@
+{
+    "name": "armatesla",
+    "description": "Adiciona armadilhas de tesla em Minetest",
+    "keywords": [
+        "armatesla"
+    ],
+    "homepage": "https://github.com/BrunoMine/armatesla",
+    "forum": "https://forum.minetest.net/viewtopic.php?t=1",
+    "screenshots": [
+        "https://raw.githubusercontent.com/BrunoMine/armatesla/master/screenshot.png"
+    ],
+    "authors": [
+        "BrunoMine"
+    ]
+}
