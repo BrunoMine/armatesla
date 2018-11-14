@@ -2,7 +2,7 @@
 
 [![download](https://img.shields.io/github/tag/BrunoMine/armatesla.svg?style=flat-square&label=release)](https://github.com/BrunoMine/armatesla/archive/master.zip)
 [![git](https://img.shields.io/badge/git-project-green.svg?style=flat-square)](https://github.com/BrunoMine/armatesla)
-[![forum](https://img.shields.io/badge/minetest-mod-green.svg?style=flat-square)](https://forum.minetest.net)
+[![forum](https://img.shields.io/badge/minetest-mod-green.svg?style=flat-square)](https://forum.minetest.net/viewtopic.php?f=9&t=21422&p=335715#p335715)
 [![bower](https://img.shields.io/badge/bower-mod-green.svg?style=flat-square)](https://minetest-bower.herokuapp.com/mods/armatesla)
 
 ## Descrição
