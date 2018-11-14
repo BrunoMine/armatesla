@@ -10,19 +10,40 @@
   ]]
 
 -- Tabela Global
-anarquia = {}
+armatesla = {}
 
 local modpath = minetest.get_modpath("armatesla")
 
---dofile(modpath.."/tradutor.lua")
+dofile(modpath.."/tradutor.lua")
+
+-- Tradutor de texto
+local S = armatesla.S
 
 -- Node de tesla
 minetest.register_node("armatesla:tesla", {
-	description = "Armadilha de Tesla",
+	description = S("Armadilha de Tesla"),
 	tiles = {"armatesla_top.png", "armatesla_top.png", "armatesla_sides.png"},
 	paramtype2 = "facedir",
+	drawtype = "nodebox",
+	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125, -0.5, -0.125, 0.125, 0.3125, 0.125}, -- NodeBox1
+			{-0.4375, -0.375, 0.125, 0.4375, 0.375, 0.4375}, -- NodeBox2
+			{-0.4375, -0.375, -0.4375, 0.4375, 0.375, -0.125}, -- NodeBox4
+			{0.125, -0.375, -0.4375, 0.4375, 0.375, 0.4375}, -- NodeBox5
+			{-0.4375, -0.375, -0.4375, -0.125, 0.375, 0.4375}, -- NodeBox6
+			{-0.375, -0.4375, -0.375, -0.25, 0.4375, 0.375}, -- NodeBox7
+			{0.25, -0.4375, -0.375, 0.375, 0.4375, 0.375}, -- NodeBox8
+			{-0.375, -0.4375, -0.375, 0.375, 0.4375, -0.25}, -- NodeBox9
+			{-0.375, -0.4375, 0.25, 0.375, 0.4375, 0.375}, -- NodeBox11
+			{-0.5, -0.25, -0.5, 0.5, 0.25, 0.5}, -- NodeBox12
+		}
+	},
+	
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_place = minetest.rotate_node,
@@ -115,6 +136,22 @@ minetest.register_entity("armatesla:antitesla_entity_inibidora", {
 		if self.timer > 30 then
 			self.object:remove() -- Remove particula lançada
 		end
+		-- Verifica se encontrou tesla
+		if self.em_tesla == nil and self.timer >= 1 then
+			local pos = self.object:getpos()
+			if table.maxn(minetest.find_nodes_in_area(
+				{x=pos.x-1, y=pos.y-1, z=pos.z-1}, {x=pos.x+1, y=pos.y+1, z=pos.z+1}, {"armatesla:tesla"})) == 0 then
+				self.object:remove()
+			else
+				self.em_tesla = true
+				local id = minetest.add_particlespawner(
+					1000, 30, pos, pos,
+					{x=-1, y=1, z=-1}, {x=1, y=1, z=1},
+					{x=2, y=-2, z=-2}, {x=2, y=-2, z=2},
+					0.1, 0.75, 1, 8, false, "armatesla_particula_antitesla.png"
+				)
+			end
+		end
 	end,
 	get_staticdata = function(self)
 		return "expired"
@@ -155,17 +192,17 @@ minetest.register_entity("armatesla:antitesla_entity", {
 						node.name ~= "default:water_flowing" then
 					local meta = minetest.get_meta(pos)
 					pos.y = pos.y - 0.1
-					local id = minetest.add_particlespawner(
-						1000, 30, pos, pos,
-						{x=-1, y=1, z=-1}, {x=1, y=1, z=1},
-						{x=2, y=-2, z=-2}, {x=2, y=-2, z=2},
-						0.1, 0.75, 1, 8, false, "armatesla_particula_antitesla.png"
-					)
 				end
 				self.object:remove() -- Remove particula lançada
 				local new_obj = minetest.add_entity(pos, "armatesla:antitesla_entity_inibidora")
 				local lua_obj = new_obj:get_luaentity()
 				lua_obj.name = "armatesla:antitesla_entity_inibidora"
+			end
+			-- Tempo limite
+			self.timer_max = (self.timer_max or 0) + self.timer
+			if self.timer_max >= 8 then
+				self.object:remove()
+				return
 			end
 			self.timer = 0
 		end
@@ -177,7 +214,7 @@ minetest.register_entity("armatesla:antitesla_entity", {
 
 -- Granada Antitesla
 minetest.register_tool("armatesla:antitesla", {
-	description = "Granada AntiTesla",
+	description = S("Granada AntiTesla"),
 	inventory_image = "armatesla_granada_antitesla.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local inv = user:get_inventory()
