@@ -213,7 +213,7 @@ minetest.register_entity("armatesla:antitesla_entity", {
 })
 
 -- Granada Antitesla
-minetest.register_tool("armatesla:antitesla", {
+minetest.register_craftitem("armatesla:antitesla", {
 	description = S("Granada AntiTesla"),
 	inventory_image = "armatesla_granada_antitesla.png",
 	on_use = function(itemstack, user, pointed_thing)
@@ -225,7 +225,7 @@ minetest.register_tool("armatesla:antitesla", {
 		})
 		
 		if not minetest.setting_getbool("creative_mode") then
-			inv:remove_item("main", "armatesla:antitesla 1")
+			itemstack:take_item()
 		end
 		local pos = user:getpos()
 		local dir = user:get_look_dir()
